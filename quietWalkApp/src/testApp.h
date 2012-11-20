@@ -4,6 +4,8 @@
 #include "ofxiPhone.h"
 #include "ofxiPhoneExtras.h"
 #include "manager.h"
+#include "ofxHeatMap.h"
+
 class testApp : public ofxiPhoneApp{
 	
 public:
@@ -42,7 +44,7 @@ public:
     float av;
     int quietCount;
     int loudCount;
-
+    ofxHeatMap heatMap;
     /*
      1 welcome screen
      2 directions/that was loud+directions
