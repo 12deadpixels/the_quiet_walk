@@ -12,6 +12,8 @@ manager
 #include "directionScene.h"
 #include "endScene.h"
 #include "listenScene.h"
+#include "ofxiWebUploader.h"
+
 #define MAX_POSS_ATTEMPTS 3
 
 using namespace std;
@@ -20,7 +22,7 @@ using namespace std;
 class manager{
     public:
     void setup();
-    void update();
+    void update(float _lat, float _long);
     void touch(ofPoint touch);
     void nextScene();
     void previousScene();
@@ -30,6 +32,11 @@ class manager{
     void draw();
     bool getIsRecording();
     bool playBack;
+    void setWasQuiet(bool _wasQuiet);
+    bool getIsListening();
+    bool getSampleIsReady();
+    void setSampleIsReady(bool _sampleIsReady);
+    void addAudioLevel(float level);
 protected:
     bool frameHasEnded();
     bool frameHasStarted();
@@ -43,6 +50,18 @@ protected:
     int sceneIndex;
     bool isRecording;
     int numAttempts;
+    bool wasQuiet;
+    bool isListening;
+    bool sampleIsReady;
+    vector <float> audioLevels;
+    vector <float> audioLevelsOneLocation;
+    vector<float> lats;
+    vector<float> longs;
+    ofxiWebUploader uploader;
+
+    string headerphp;
+	string uploadphp;
+	string footerphp;
     
 };
 

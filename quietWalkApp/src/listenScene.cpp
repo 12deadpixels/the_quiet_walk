@@ -19,12 +19,12 @@ void listenScene::stop(){
     cout<<"sceneHasEnded ";
 }
 void listenScene::update(){
-    if (ofGetElapsedTimeMillis()-millis>1000*2) {
+    if (ofGetElapsedTimeMillis()-millis>1000*5) {
         //checkstatus;
-        wasQuiet = (int)ofRandom(0,1);
-        cout<<"wasQuiet "<<wasQuiet;
+       
+        
         sceneHasEnded=true;
-        cout<<"OVER";
+        
     }
     
 }

@@ -4,7 +4,6 @@
 #include "ofxiPhone.h"
 #include "ofxiPhoneExtras.h"
 #include "manager.h"
-#include "ofxiWebUploader.h"
 class testApp : public ofxiPhoneApp{
 	
 public:
@@ -32,7 +31,7 @@ public:
 	int	drawCounter;
     int bufferCounter;
 	float * buffer;
-    
+    vector<float> longBuffer;
     //GPS
     ofxiPhoneCoreLocation * coreLocation;
 	float heading;
@@ -40,9 +39,9 @@ public:
 	bool hasGPS;
     
     manager sceneManager;
-    ofxiWebUploader uploader;
-    
-    
+    float av;
+    int quietCount;
+    int loudCount;
 
     /*
      1 welcome screen

@@ -22,16 +22,28 @@ void manager::start(){
     scenes[1]->setState(0);
     scenes[sceneIndex]->start();
     numAttempts = 0;
+    sampleIsReady=false;
+    audioLevels.clear();
+    audioLevelsOneLocation.clear();
+    lats.clear();
+    longs.clear();
     
 }
-void manager::update(){
+void manager::update(float _lat, float _long){
     scenes[sceneIndex]->update();
+    if (sceneIndex==2) {
+        isListening=true;
+    }
+    else{
+        isListening=false;
+    }
     if(scenes[sceneIndex]->getSceneHasEnded()){
         cout<<"go to next scene";
         
         //first check if we need to swithc back because we are on the listening scene
         if (sceneIndex==2) {
-            bool wasQuiet = scenes[sceneIndex]->getEndState();
+            
+          //  wasQuiet = scenes[sceneIndex]->getEndState();
             cout<<"WASQUIET "<<wasQuiet<<endl;
             //GO TO END AND FLAG FOR SUCCESS
             if(wasQuiet){
@@ -54,6 +66,18 @@ void manager::update(){
                 numAttempts++;
                 goToScene(1);
             }
+            sampleIsReady=true;
+            
+            float average=0.0;
+            for(int i=0;i<audioLevelsOneLocation.size();i++){
+                average+=audioLevelsOneLocation[i];
+            }
+            average/=audioLevelsOneLocation.size();
+            audioLevels.push_back(average);
+            lats.push_back(_lat);
+            longs.push_back(_long);
+            cout<<average<<" "<<_lat<<" "<<_long<<endl;
+            
         }else{
             cout<<"NEXT SCENE";
         scenes[sceneIndex]->stop(); 
@@ -71,6 +95,16 @@ void manager::nextScene(){
     }
     else{
         cout<<"this is the last scene, cannot go forward"<<endl;
+        
+        ///maybe write to server here.
+        
+        vector<string> keys;
+        vector<string>vals;
+        
+        //add data to array and send here
+        //string response = uploader.send(uploadphp, keys,vals,WEB_POST);
+        //    cout << "post responseUploader :  \n" << response << endl;
+
         start();
 
     }
@@ -102,4 +136,13 @@ void manager::draw(){
 }
 bool manager::getIsRecording(){
     return isRecording;
+}
+bool manager::getIsListening(){
+    return isListening;
+}
+void manager::setWasQuiet(bool _wasQuiet){
+    wasQuiet=_wasQuiet;
+}
+void manager::addAudioLevel(float level){
+    audioLevelsOneLocation.push_back(level);
 }

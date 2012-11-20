@@ -43,12 +43,13 @@ void testApp::setup(){
 //    string response = uploader.send(uploadphp, keys,vals,WEB_POST);
 //    cout << "post responseUploader :  \n" << response << endl;
 
-    
+    av=0;
+    quietCount=loudCount=0;
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-    sceneManager.update();
+    sceneManager.update(coreLocation->getLatitude(),coreLocation->getLongitude());
 }
 
 //--------------------------------------------------------------
@@ -70,6 +71,7 @@ void testApp::draw(){
 //	sprintf(reportString, "buffers received: %i\ndraw routines called: %i\n", bufferCounter, drawCounter);
 //	ofDrawBitmapString(reportString, 70, 308);
     sceneManager.draw();
+    ofCircle(100, 100, av*100);
 }
 
 //--------------------------------------------------------------
@@ -90,6 +92,37 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
 		buffer[i] = input[i];
 	}
 	bufferCounter++;
+    
+    //take a rough average.
+    float average=0.0;
+    for(int i = 0; i < bufferSize; i++){
+		average+=abs(buffer[i]);
+	}
+    if(sceneManager.getIsListening()){
+        float thresh=0.9;
+        cout<<average<<" ";
+        if (average>thresh) {
+            loudCount++;
+        }else{
+            quietCount++;
+        }
+        cout<<endl<<loudCount<<" "<<quietCount<<endl;
+        
+        if (loudCount>quietCount) {
+            sceneManager.setWasQuiet(false);
+        }
+        else{
+            sceneManager.setWasQuiet(true);
+        }
+        sceneManager.addAudioLevel(average);
+    }
+    else{
+        longBuffer.clear();
+        av=0;
+        quietCount=loudCount=0;
+
+    }
+    
 
 }
 
