@@ -19,7 +19,7 @@ void listenScene::stop(){
     cout<<"sceneHasEnded ";
 }
 void listenScene::update(){
-    if (ofGetElapsedTimeMillis()-millis>1000*5) {
+    if (ofGetElapsedTimeMillis()-millis>1000*2) {
         //checkstatus;
        
         

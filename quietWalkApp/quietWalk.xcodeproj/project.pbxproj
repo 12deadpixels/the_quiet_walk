@@ -23,6 +23,7 @@
 		AD63C5A6165BC2930071CF88 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AD63C5A0165BC2930071CF88 /* tinyxmlerror.cpp */; };
 		AD63C5A7165BC2930071CF88 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AD63C5A1165BC2930071CF88 /* tinyxmlparser.cpp */; };
 		AD63C5A8165BC2930071CF88 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AD63C5A3165BC2930071CF88 /* ofxXmlSettings.cpp */; };
+		ADCA28A2165D06B700EFAB17 /* mapScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADCA28A0165D06B700EFAB17 /* mapScene.cpp */; };
 		ADCCF66E165BF6CD00C9CF07 /* install.xml in Resources */ = {isa = PBXBuildFile; fileRef = ADCCF669165BF6CD00C9CF07 /* install.xml */; };
 		ADCCF66F165BF6CD00C9CF07 /* ofxHeatMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADCCF66C165BF6CD00C9CF07 /* ofxHeatMap.cpp */; };
 		BB16EBD20F2B2A9500518274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD10F2B2A9500518274 /* OpenGLES.framework */; };
@@ -86,6 +87,8 @@
 		AD63C5A1165BC2930071CF88 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		AD63C5A3165BC2930071CF88 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
 		AD63C5A4165BC2930071CF88 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		ADCA28A0165D06B700EFAB17 /* mapScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mapScene.cpp; sourceTree = "<group>"; };
+		ADCA28A1165D06B700EFAB17 /* mapScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mapScene.h; sourceTree = "<group>"; };
 		ADCCF669165BF6CD00C9CF07 /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
 		ADCCF66C165BF6CD00C9CF07 /* ofxHeatMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxHeatMap.cpp; sourceTree = "<group>"; };
 		ADCCF66D165BF6CD00C9CF07 /* ofxHeatMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxHeatMap.h; sourceTree = "<group>"; };
@@ -290,6 +293,8 @@
 				AD5DC752165B9C3E0028F8A7 /* endScene.h */,
 				AD5DC75E165BA86A0028F8A7 /* listenScene.cpp */,
 				AD5DC75F165BA86A0028F8A7 /* listenScene.h */,
+				ADCA28A0165D06B700EFAB17 /* mapScene.cpp */,
+				ADCA28A1165D06B700EFAB17 /* mapScene.h */,
 				AD63C599165BC2700071CF88 /* ofxiWebUploader.h */,
 				AD63C59A165BC2700071CF88 /* ofxiWebUploader.mm */,
 			);
@@ -407,6 +412,7 @@
 				AD63C5A7165BC2930071CF88 /* tinyxmlparser.cpp in Sources */,
 				AD63C5A8165BC2930071CF88 /* ofxXmlSettings.cpp in Sources */,
 				ADCCF66F165BF6CD00C9CF07 /* ofxHeatMap.cpp in Sources */,
+				ADCA28A2165D06B700EFAB17 /* mapScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

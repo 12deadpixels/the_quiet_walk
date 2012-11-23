@@ -6,13 +6,17 @@ void manager::setup(){
     scenes.push_back(&dir);
     scenes.push_back(&lis);
     scenes.push_back(&end);
+    scenes.push_back(&mmap);
+    
     isRecording=false;
     playBack = false;
     
     for(int i=0;i<scenes.size();i++){
         scenes[i]->setup();
     }
-    
+    headerphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/header-decibels.php";
+	uploadphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/upload-decibels.php";
+	footerphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/footer-decibels.php";
 }
 void manager::start(){
     
@@ -76,7 +80,28 @@ void manager::update(float _lat, float _long){
             audioLevels.push_back(average);
             lats.push_back(_lat);
             longs.push_back(_long);
-            cout<<average<<" "<<_lat<<" "<<_long<<endl;
+            cout<<average<<" bump up lat and long "<<_lat<<" "<<_long<<endl;
+                        
+            vector<string> keys;
+            vector<string>vals;
+            
+            for(int i=0;i<lats.size();i++){
+                keys.push_back("lat");
+                vals.push_back(ofToString(lats[i]));
+                keys.push_back("longI");
+                vals.push_back(ofToString(longs[i]));
+                keys.push_back("dB_low");
+                vals.push_back(ofToString(audioLevels[i]));
+            }
+            string phpheader = uploader.send(headerphp, keys,vals,WEB_POST);
+            
+            //string phpheader = uploader.send("http://12deadpixels.99k.org/header.php", keys,vals,WEB_POST);
+            cout << "post responseHeader : \n" << phpheader << endl;
+            string response = uploader.send(uploadphp, keys,vals,WEB_POST);
+            cout << "post responseUploader :  \n" << response << endl;
+            string phpfooter = uploader.send(footerphp, keys,vals,WEB_POST);
+			cout << "post responseFooter : \n" << phpfooter << endl;
+
             
         }else{
             cout<<"NEXT SCENE";
@@ -91,17 +116,19 @@ void manager::touch(ofPoint touch){
 void manager::nextScene(){
     if(sceneIndex<scenes.size()-1){
         sceneIndex++;
+        if (sceneIndex==4) {
+            scenes[sceneIndex]->start(lats,longs,audioLevels);
+        }
+        else{
         scenes[sceneIndex]->start();
+        }
     }
     else{
         cout<<"this is the last scene, cannot go forward"<<endl;
         
         ///maybe write to server here.
         
-        vector<string> keys;
-        vector<string>vals;
-        
-        //add data to array and send here
+                //add data to array and send here
         //string response = uploader.send(uploadphp, keys,vals,WEB_POST);
         //    cout << "post responseUploader :  \n" << response << endl;
 

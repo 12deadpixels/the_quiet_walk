@@ -2,31 +2,23 @@
 #define WEBUPLOADER_H
 
 #include "ofMain.h"
-#include "ofxXmlSettings.h"
-//#include "ofxiPhoneFile.h"
-//#include "ofxFileLoader.h"
 
 #define WEB_POST		0
 #define WEB_GET			1
 
 class ofxiWebUploader
 {
-    public:
-        ofxiWebUploader();
-        virtual ~ofxiWebUploader();
-		
-		ofxXmlSettings XML;
-	//	ofxiPhoneFile rawXML;
-//		ofxFileLoader loader;
+public:
+    ofxiWebUploader();
+    virtual ~ofxiWebUploader();
+    
+    string	send( string myUrl, vector<string> keys, vector<string>vals, int mode );
+    
+    
+protected:
+    
 	
-		string	send( string myUrl);
-		string resultList;
-
-		
-    protected:
-		
-	
-    private:
+private:
 };
 
 #endif // WEBUPLOADER_H

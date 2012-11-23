@@ -12,6 +12,7 @@ manager
 #include "directionScene.h"
 #include "endScene.h"
 #include "listenScene.h"
+#include "mapScene.h"
 #include "ofxiWebUploader.h"
 
 #define MAX_POSS_ATTEMPTS 3
@@ -46,7 +47,7 @@ protected:
     directionScene dir;
     listenScene lis;
     endScene end;
-    
+    mapScene mmap;
     int sceneIndex;
     bool isRecording;
     int numAttempts;

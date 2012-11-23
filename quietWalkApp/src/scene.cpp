@@ -7,7 +7,9 @@ void scene::start(){
     playBack=false;
     
 }
-
+void scene::start(vector<float>lats,vector<float>longs, vector<float>audioVals ){
+    
+}
 bool scene::getSceneHasEnded(){
     return sceneHasEnded;
 }

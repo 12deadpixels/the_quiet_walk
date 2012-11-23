@@ -15,6 +15,8 @@ class scene{
 public:
     virtual void setup();
     virtual void start();
+    virtual void start(vector<float>lats,vector<float>longs, vector<float>audioVals );
+
     virtual void draw();
     virtual void stop();
     virtual bool getSceneHasEnded();

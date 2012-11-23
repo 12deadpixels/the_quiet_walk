@@ -8,12 +8,14 @@ void testApp::setup(){
 
 //	ofxiPhoneSetOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
     ofxiPhoneSetOrientation(OFXIPHONE_ORIENTATION_PORTRAIT);
-    ofSetLogLevel(OF_LOG_SILENT);
+//    ofSetLogLevel(OF_LOG_SILENT);
+    ofSetLogLevel(OF_LOG_VERBOSE);
+
 	ofBackground(255, 255, 255);
 
 	//for some reason on the iphone simulator 256 doesn't work - it comes in as 512!
 	//so we do 512 - otherwise we crash
-	initialBufferSize = 470;
+	initialBufferSize = 512;
 	sampleRate = 44100;
 	drawCounter = 0;
 	bufferCounter = 0;
@@ -45,11 +47,15 @@ void testApp::setup(){
 
     av=0;
     quietCount=loudCount=0;
+   // mapKit.open();
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+    //ofPoint  loc = mapKit.getScreenCoordinatesForLocation(coreLocation->getLatitude(),coreLocation->getLongitude());
+    //cout<<loc<<" loc: "<<coreLocation->getLatitude();
     sceneManager.update(coreLocation->getLatitude(),coreLocation->getLongitude());
+    //sceneManager.update(loc.x,loc.y);
 }
 
 //--------------------------------------------------------------
@@ -99,8 +105,10 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
 		average+=abs(buffer[i]);
 	}
     if(sceneManager.getIsListening()){
-        float thresh=0.9;
-        cout<<average<<" ";
+        float thresh=0.7;
+//        float thresh=4.7;
+
+        // cout<<"average "<<average<<" ";
         if (average>thresh) {
             loudCount++;
         }else{
@@ -112,7 +120,10 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
             sceneManager.setWasQuiet(false);
         }
         else{
-            sceneManager.setWasQuiet(true);
+//TODO RESTORE THIS
+            sceneManager.setWasQuiet(false);
+
+//            sceneManager.setWasQuiet(true);
         }
         sceneManager.addAudioLevel(average);
     }
