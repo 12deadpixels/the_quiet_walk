@@ -15,7 +15,9 @@ void manager::setup(){
         scenes[i]->setup();
     }
     headerphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/header-decibels.php";
-	uploadphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/upload-decibels.php";
+	uploadphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/uploadAll.php";
+//	uploadphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/upload-decibels.php";
+    
 	footerphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/footer-decibels.php";
 }
 void manager::start(){
@@ -82,25 +84,14 @@ void manager::update(float _lat, float _long){
             longs.push_back(_long);
             cout<<average<<" bump up lat and long "<<_lat<<" "<<_long<<endl;
                         
-            vector<string> keys;
-            vector<string>vals;
             
-            for(int i=0;i<lats.size();i++){
-                keys.push_back("lat");
-                vals.push_back(ofToString(lats[i]));
-                keys.push_back("longI");
-                vals.push_back(ofToString(longs[i]));
-                keys.push_back("dB_low");
-                vals.push_back(ofToString(audioLevels[i]));
-            }
-            string phpheader = uploader.send(headerphp, keys,vals,WEB_POST);
+           // string phpheader = uploader.send(headerphp, keys,vals,WEB_POST);
             
             //string phpheader = uploader.send("http://12deadpixels.99k.org/header.php", keys,vals,WEB_POST);
-            cout << "post responseHeader : \n" << phpheader << endl;
-            string response = uploader.send(uploadphp, keys,vals,WEB_POST);
-            cout << "post responseUploader :  \n" << response << endl;
-            string phpfooter = uploader.send(footerphp, keys,vals,WEB_POST);
-			cout << "post responseFooter : \n" << phpfooter << endl;
+          //  cout << "post responseHeader : \n" << phpheader << endl;
+            
+           // string phpfooter = uploader.send(footerphp, keys,vals,WEB_POST);
+			//cout << "post responseFooter : \n" << phpfooter << endl;
 
             
         }else{
@@ -117,6 +108,29 @@ void manager::nextScene(){
     if(sceneIndex<scenes.size()-1){
         sceneIndex++;
         if (sceneIndex==4) {
+            vector<string> keys;
+            vector<string>vals;
+            
+            /*for(int i=0;i<lats.size();i++){
+                keys.push_back("lat");
+                vals.push_back(ofToString(lats[i]));
+                keys.push_back("longI");
+                vals.push_back(ofToString(longs[i]));
+                keys.push_back("dB_low");
+                vals.push_back(ofToString(audioLevels[i]));
+            }*/
+            for(int i=0;i<lats.size();i++){
+                keys.push_back("lat_"+ofToString(i));
+                vals.push_back(ofToString(lats[i]));
+                keys.push_back("longI_"+ofToString(i));
+                vals.push_back(ofToString(longs[i]));
+                keys.push_back("dB_low_"+ofToString(i));
+                vals.push_back(ofToString(audioLevels[i]));
+            }
+
+            cout<<"length of array "<< vals.size()<<" end length of array\n";
+            string response = uploader.send(uploadphp, keys,vals,WEB_POST);
+            cout << "post responseUploader :  \n" << response << endl;
             scenes[sceneIndex]->start(lats,longs,audioLevels);
         }
         else{

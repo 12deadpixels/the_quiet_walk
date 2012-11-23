@@ -11,7 +11,7 @@ void mapScene::start(vector<float>_lats,vector<float>_longs, vector<float>_audio
     ofPoint audioMinMax=ofPoint(0,0);
 
     
-    for (int i=0; i<lats.size(); i++) {
+  /* for (int i=0; i<lats.size(); i++) {
         lats[i]=ofRandom(-180.0,180.0);
         longs[i]=ofRandom(-180.0,180.0);
     }
@@ -55,7 +55,7 @@ void mapScene::start(vector<float>_lats,vector<float>_longs, vector<float>_audio
         
     }
     
-   heatImage.setFromPixels (pixels);
+   heatImage.setFromPixels (pixels);*/
     cout<<"MADE HEATMAP:"<<endl;
 
 }
@@ -68,7 +68,7 @@ void mapScene::draw(){
     //ofSetColor(252, 0, 0);
     
 
-    heatImage.draw(0,0);
+   // heatImage.draw(0,0);
    // cout<<" lats.size() "<< lats.size() <<endl;
     
     //cout<<"MIN AND MAX: "<<mins.x<<" "<<maxs.x<<" "<<mins.y<<" "<< maxs.y<<endl;
