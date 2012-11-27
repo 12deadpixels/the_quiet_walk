@@ -36,11 +36,11 @@ void endScene::touch(ofPoint touch){
     if(state==0){
         buttPos = ofPoint(160,423);
         w = 82;
-        h= 18;
+        h= 28;
     }else{
         buttPos = ofPoint(160,454);
         w = 92;
-        h= 18;
+        h= 28;
     }
     cout<<"touched";
     if(inBounds(buttPos,w,h,touch)){
