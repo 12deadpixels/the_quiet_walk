@@ -6,7 +6,7 @@ void manager::setup(){
     scenes.push_back(&dir);
     scenes.push_back(&lis);
     scenes.push_back(&end);
-    scenes.push_back(&mmap);
+   // scenes.push_back(&mmap);
     
     isRecording=false;
     playBack = false;
