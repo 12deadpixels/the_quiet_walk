@@ -37,18 +37,21 @@ void endScene::touch(ofPoint touch){
     if(state==0){
         buttPos = ofPoint(160,423);
         w = 82;
-        h= 28;
+        h= 38;
     }else{
         buttPos = ofPoint(160,454);
         w = 92;
-        h= 28;
+        h= 38;
     }
     cout<<"touched";
     if(inBounds(buttPos,w,h,touch)){
         stop();
     }
-    else{
-    pageOpened= true;
+    ofPoint mapButton= ofPoint(0,0);
+    w = ofGetWidth();
+    h= 28;
+    if(inBounds(mapButton,w,h,touch)){
+        pageOpened= true;
         cout<<"page opened in endSCene"<<endl;
 
     }

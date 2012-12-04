@@ -15,8 +15,8 @@ void manager::setup(){
         scenes[i]->setup();
     }
     headerphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/header-decibels.php";
-	uploadphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/uploadAll.php";
-//	uploadphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/upload-decibels.php";
+	uploadphp = "http://di.ncl.ac.uk/quietwalk/uploadAll.php";
+//	uploadphp = "http://di.ncl.ac.uk/quietwalk/upload-decibels.php";
     
 	footerphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/footer-decibels.php";
 }
@@ -102,7 +102,7 @@ void manager::update(float _lat, float _long){
 
             
         }else{
-            cout<<"NEXT SCENE";
+            cout<<" NEXT SCENE";
         scenes[sceneIndex]->stop(); 
         nextScene();
         }
@@ -114,39 +114,40 @@ void manager::touch(ofPoint touch){
 void manager::nextScene(){
     if(sceneIndex<scenes.size()-1){
         sceneIndex++;
-        if (sceneIndex==4) {
-            vector<string> keys;
-            vector<string>vals;
+        if (sceneIndex==3) {
             
-            /*for(int i=0;i<lats.size();i++){
-                keys.push_back("lat");
-                vals.push_back(ofToString(lats[i]));
-                keys.push_back("longI");
-                vals.push_back(ofToString(longs[i]));
-                keys.push_back("dB_low");
-                vals.push_back(ofToString(audioLevels[i]));
-            }*/
-            for(int i=0;i<lats.size();i++){
-                keys.push_back("lat_"+ofToString(i));
-                vals.push_back(ofToString(lats[i]));
-                keys.push_back("longI_"+ofToString(i));
-                vals.push_back(ofToString(longs[i]));
-                keys.push_back("dB_low_"+ofToString(i));
-                vals.push_back(ofToString(audioLevels[i]));
-            }
-
-            cout<<"length of array "<< vals.size()<<" end length of array\n";
-            string response = uploader.send(uploadphp, keys,vals,WEB_POST);
-            cout << "post responseUploader :  \n" << response << endl;
-            scenes[sceneIndex]->start(lats,longs,audioLevels);
         }
         else{
+
+          //  scenes[sceneIndex]->start(lats,longs,audioLevels);
         scenes[sceneIndex]->start();
         }
     }
     else{
         cout<<"this is the last scene, cannot go forward"<<endl;
+        vector<string> keys;
+        vector<string>vals;
         
+        /*for(int i=0;i<lats.size();i++){
+         keys.push_back("lat");
+         vals.push_back(ofToString(lats[i]));
+         keys.push_back("longI");
+         vals.push_back(ofToString(longs[i]));
+         keys.push_back("dB_low");
+         vals.push_back(ofToString(audioLevels[i]));
+         }*/
+        for(int i=0;i<lats.size();i++){
+            keys.push_back("lat_"+ofToString(i));
+            vals.push_back(ofToString(lats[i]));
+            keys.push_back("longI_"+ofToString(i));
+            vals.push_back(ofToString(longs[i]));
+            keys.push_back("dB_low_"+ofToString(i));
+            vals.push_back(ofToString(audioLevels[i]));
+        }
+        
+        cout<<"length of array "<< vals.size()<<" end length of array\n";
+        string response = uploader.send(uploadphp, keys,vals,WEB_POST);
+        cout << "post responseUploader :  \n" << response << endl;
         ///maybe write to server here.
         
                 //add data to array and send here
