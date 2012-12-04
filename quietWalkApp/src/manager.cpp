@@ -10,7 +10,7 @@ void manager::setup(){
     
     isRecording=false;
     playBack = false;
-    
+    pageOpened=false;
     for(int i=0;i<scenes.size();i++){
         scenes[i]->setup();
     }
@@ -37,6 +37,13 @@ void manager::start(){
 }
 void manager::update(float _lat, float _long){
     scenes[sceneIndex]->update();
+    
+    if(scenes[sceneIndex]->getPageOpened()){
+        pageOpened=true;
+        cout<<"page opened in manager"<<endl;
+
+    }
+    
     if (sceneIndex==2) {
         isListening=true;
     }
@@ -181,9 +188,15 @@ bool manager::getIsRecording(){
 bool manager::getIsListening(){
     return isListening;
 }
+bool manager::getPageOpened(){
+    return pageOpened;
+}
 void manager::setWasQuiet(bool _wasQuiet){
     wasQuiet=_wasQuiet;
 }
 void manager::addAudioLevel(float level){
     audioLevelsOneLocation.push_back(level);
+}
+void manager::setPageOpened(bool _pageOpened){
+    pageOpened = _pageOpened;
 }

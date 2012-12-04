@@ -25,6 +25,8 @@ public:
     virtual void touch(ofPoint touch);
     virtual bool getEndState();
     virtual void setState(int state);
+    virtual bool getPageOpened();
+    virtual void setPageOpened(bool _pageOpened);
     bool playBack;
 protected:
     bool sceneHasEnded;
@@ -32,7 +34,8 @@ protected:
     string fileName;
     ofTrueTypeFont font;
     virtual bool inBounds(ofPoint topLeft, float w, float h, ofPoint point);
-   
+    bool pageOpened;
+
 };
 
 #endif

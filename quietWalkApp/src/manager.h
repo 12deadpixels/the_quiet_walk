@@ -28,15 +28,21 @@ class manager{
     void nextScene();
     void previousScene();
     void goToScene(int _sceneIndex);
+
     void start();
     void stop();
     void draw();
-    bool getIsRecording();
     bool playBack;
-    void setWasQuiet(bool _wasQuiet);
+    
+    bool getIsRecording();
     bool getIsListening();
     bool getSampleIsReady();
+    bool getPageOpened();
+    
+    void setWasQuiet(bool _wasQuiet);
+    void setPageOpened(bool _pageOpened);
     void setSampleIsReady(bool _sampleIsReady);
+    
     void addAudioLevel(float level);
 protected:
     bool frameHasEnded();
@@ -53,6 +59,7 @@ protected:
     int numAttempts;
     bool wasQuiet;
     bool isListening;
+    bool pageOpened;
     bool sampleIsReady;
     vector <float> audioLevels;
     vector <float> audioLevelsOneLocation;

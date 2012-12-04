@@ -4,7 +4,6 @@
 #include "ofxiPhone.h"
 #include "ofxiPhoneExtras.h"
 #include "manager.h"
-#include "ofxiPhoneExtras.h"
 class testApp : public ofxiPhoneApp{
 	
 public:
@@ -24,8 +23,8 @@ public:
     void gotFocus();
     void gotMemoryWarning();
     void deviceOrientationChanged(int newOrientation);
-
-	void audioIn(float * input, int bufferSize, int nChannels);
+    void audioIn(float * input, int bufferSize, int nChannels);
+    void ofxiPhoneLaunchBrowser(string url);
 
 	int	initialBufferSize;
 	int	sampleRate;

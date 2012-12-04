@@ -25,6 +25,8 @@ void scene::stop(){
 bool scene::getIsRecording(){
     return false;
 }
+bool scene::getPageOpened(){
+}
 void scene::touch(ofPoint touch){
     
 }
@@ -39,5 +41,8 @@ bool scene::getEndState(){
     
 }
 void scene::setState(int state){
+    
+}
+void scene::setPageOpened(bool _pageOpened){
     
 }

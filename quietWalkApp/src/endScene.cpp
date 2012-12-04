@@ -6,6 +6,7 @@ void endScene::setup(){
 }
 void endScene::start(){
     sceneHasEnded = false;
+    pageOpened= false;
 }
 void endScene::draw(){
     ofPushStyle();
@@ -46,4 +47,18 @@ void endScene::touch(ofPoint touch){
     if(inBounds(buttPos,w,h,touch)){
         stop();
     }
+    else{
+    pageOpened= true;
+        cout<<"page opened in endSCene"<<endl;
+
+    }
+
+ // [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ofxStringToNSString(url)]];
+    
+}
+bool endScene::getPageOpened(){
+    return pageOpened;
+}
+void endScene::setPageOpened(bool _pageOpened){
+    pageOpened=_pageOpened;
 }

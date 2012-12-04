@@ -56,6 +56,12 @@ void testApp::update(){
     //cout<<loc<<" loc: "<<coreLocation->getLatitude();
     sceneManager.update(coreLocation->getLatitude(),coreLocation->getLongitude());
     //sceneManager.update(loc.x,loc.y);
+    if(sceneManager.getPageOpened()){
+        string url = "http://di.ncl.ac.uk/quietwalk/multixmlmarkers.html";
+        cout<<"page opened in testApp"<<endl;
+        ofxiPhoneLaunchBrowser(url);
+//        sceneManager.setPageOpened(false);
+    }
 }
 
 //--------------------------------------------------------------
@@ -140,6 +146,7 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
 void testApp::touchDown(ofTouchEventArgs & touch){
     ofPoint aTouch = ofPoint(touch.x,touch.y);
     sceneManager.touch(aTouch);
+   
 }
 
 //--------------------------------------------------------------
@@ -181,4 +188,8 @@ void testApp::gotMemoryWarning(){
 void testApp::deviceOrientationChanged(int newOrientation){
     
 }
+void testApp::ofxiPhoneLaunchBrowser(string url) {
 
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ofxStringToNSString(url)]];
+
+}

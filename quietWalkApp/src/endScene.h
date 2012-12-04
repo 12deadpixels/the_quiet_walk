@@ -22,12 +22,14 @@ class endScene : public scene{
     bool getSceneHasEnded();
     void setState(int _state);
     void touch(ofPoint touch);
-
+    bool getPageOpened();
+    void setPageOpened(bool _pageOpened);
 protected:
     bool sceneHasEnded;
     bool sceneHasStarted;
     ofImage successEnd, failureEnd;
     int state;
+    bool pageOpened;
 };
 
 #endif
