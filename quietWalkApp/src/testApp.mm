@@ -120,10 +120,10 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
             sceneManager.setWasQuiet(false);
         }
         else{
-//TODO RESTORE THIS
+            //TODO RESTORE THIS
             sceneManager.setWasQuiet(false);
 
-//            sceneManager.setWasQuiet(true);
+            //sceneManager.setWasQuiet(true);
         }
         sceneManager.addAudioLevel(average);
     }
