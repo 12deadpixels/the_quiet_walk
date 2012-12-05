@@ -57,32 +57,7 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
 
-	/*ofTranslate(0, -50, 0);
-
-	// draw the input:
-	ofSetHexColor(0x333333);
-	ofRect(70, 100, 256, 200);
-	ofSetHexColor(0xFFFFFF);
-	for(int i = 0; i < initialBufferSize; i++){
-		ofLine(70 + i, 200, 70 + i, 200 + buffer[i] * 100.0f);
-	}
-
-	ofSetHexColor(0x333333);
-	drawCounter++;
-	char reportString[255];
-	sprintf(reportString, "buffers received: %i\ndraw routines called: %i\n", bufferCounter, drawCounter);
-	ofDrawBitmapString(reportString, 70, 308);
-    
-    peaks = MAX(peaks, maxPeaks);
-    ofRect(peaks * (ofGetWidth()-50),0,50, 100);
-    
-    // smooth the decay, so the visual is less flicky
-    peaks *= decay;
-    //string levelString =
-    if(ofGetFrameNum()%10==0){
-        level=peaks;
-    }
-    ofDrawBitmapString(ofToString(level), 1, ofGetHeight()+40);*/
+//write everything to screen
     ofBackground(0);
     ofSetColor(255, 255, 255);
     ofDrawBitmapString("isListenng : "+ofToString(isListening), 0,20);
