@@ -20,6 +20,15 @@ void manager::setup(){
 //	uploadphp = "http://di.ncl.ac.uk/quietwalk/upload-decibels.php";
     
 	footerphp = "http://di.ncl.ac.uk/schofield_altavilla_quietwalk/footer-decibels.php";
+    startTone.loadSound("sounds/startTone.caf");
+    quietTone.loadSound("sounds/quietTone.caf");
+	loudTone.loadSound("sounds/loudTone.caf");
+    startTone.setVolume(0.75f);
+    quietTone.setVolume(0.75f);
+	loudTone.setVolume(0.75f);
+    startTone.setMultiPlay(false);
+    quietTone.setMultiPlay(false);
+    loudTone.setMultiPlay(false);
 }
 void manager::start(){
     
@@ -38,7 +47,7 @@ void manager::start(){
 }
 void manager::update(float _lat, float _long){
     scenes[sceneIndex]->update();
-    
+    ofSoundUpdate();
     if(scenes[sceneIndex]->getPageOpened()){
         pageOpened=true;
         cout<<"page opened in manager"<<endl;
@@ -65,13 +74,14 @@ void manager::update(float _lat, float _long){
             //GO TO END AND FLAG FOR SUCCESS
             if(wasQuiet){
                 cout<<"go to 3 QUIET"<<endl;
+                quietTone.play();
                 goToScene(4);
                 scenes[4]->setState(0);
             }
             //GO TO END AND FLAG FOR FAIL
             else if(numAttempts>=MAX_POSS_ATTEMPTS){
                 cout<<"go to 3 NOT QUIET"<<endl;
-
+                loudTone.play();
                 goToScene(4);
                 scenes[4]->setState(1);
 
@@ -79,7 +89,7 @@ void manager::update(float _lat, float _long){
             //GO TO DIRECTIONS AGAIN
             else if(numAttempts<MAX_POSS_ATTEMPTS){
                 cout<<"go to 1"<<endl;
-
+                 loudTone.play();
                 numAttempts++;
                 goToScene(2);
             }
@@ -122,8 +132,9 @@ void manager::nextScene(){
             
         }
         else{
-
-          //  scenes[sceneIndex]->start(lats,longs,audioLevels);
+            if (sceneIndex==2) {
+                startTone.play();
+            }
         scenes[sceneIndex]->start();
         }
     }
@@ -173,6 +184,9 @@ void manager::previousScene(){
 void manager::goToScene(int _sceneIndex){
     if (sceneIndex>=0&&sceneIndex<scenes.size()-1) {
         sceneIndex=_sceneIndex;
+        if (sceneIndex==2) {
+            startTone.play();
+        }
         scenes[sceneIndex]->start();
     }
     else{

@@ -68,6 +68,9 @@ protected:
     vector<float> lats;
     vector<float> longs;
     ofxiWebUploader uploader;
+    ofSoundPlayer startTone;
+    ofSoundPlayer quietTone;
+    ofSoundPlayer loudTone;
 
     string headerphp;
 	string uploadphp;

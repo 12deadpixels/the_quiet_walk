@@ -12,6 +12,8 @@ void listenScene::start(){
 void listenScene::draw(){
     ofPushStyle();
     listenImage.draw(0, 0);
+    int cTime = (ofGetElapsedTimeMillis()-millis)/1000;
+    ofDrawBitmapString(ofToString(cTime), ofGetWidth()/2, ofGetHeight()/2);
     ofPopStyle();
 }
 void listenScene::stop(){
@@ -19,7 +21,8 @@ void listenScene::stop(){
     cout<<"sceneHasEnded ";
 }
 void listenScene::update(){
-    if (ofGetElapsedTimeMillis()-millis>1000*2) {
+    int secondsToListen = 3;
+    if (ofGetElapsedTimeMillis()-millis>1000*(secondsToListen+1)) {
         //checkstatus;
        
         

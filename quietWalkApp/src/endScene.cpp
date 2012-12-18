@@ -16,6 +16,8 @@ void endScene::draw(){
     else{
         failureEnd.draw(0, 0);
     }
+    ofSetColor(255, 0, 0);
+    ofDrawBitmapString("OPEN MAP PLACEHOLDER BUTTON", ofPoint(0,28));
     ofPopStyle();
 }
 void endScene::stop(){
@@ -51,6 +53,7 @@ void endScene::touch(ofPoint touch){
     w = ofGetWidth();
     h= 28;
     if(inBounds(mapButton,w,h,touch)){
+        stop();
         pageOpened= true;
         cout<<"page opened in endSCene"<<endl;
 
