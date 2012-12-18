@@ -3,6 +3,7 @@
 void manager::setup(){
     
     scenes.push_back(&wel);
+    scenes.push_back(&red);
     scenes.push_back(&dir);
     scenes.push_back(&lis);
     scenes.push_back(&end);
@@ -44,7 +45,7 @@ void manager::update(float _lat, float _long){
 
     }
     
-    if (sceneIndex==2) {
+    if (sceneIndex==3) {
         isListening=true;
     }
     else{
@@ -52,24 +53,27 @@ void manager::update(float _lat, float _long){
     }
     if(scenes[sceneIndex]->getSceneHasEnded()){
         cout<<"go to next scene";
-        
+        if (sceneIndex==1) {
+            goToScene(2);
+            
+        }
         //first check if we need to swithc back because we are on the listening scene
-        if (sceneIndex==2) {
+        if (sceneIndex==3) {
             
           //  wasQuiet = scenes[sceneIndex]->getEndState();
             cout<<"WASQUIET "<<wasQuiet<<endl;
             //GO TO END AND FLAG FOR SUCCESS
             if(wasQuiet){
                 cout<<"go to 3 QUIET"<<endl;
-                goToScene(3);
-                scenes[3]->setState(0);
+                goToScene(4);
+                scenes[4]->setState(0);
             }
             //GO TO END AND FLAG FOR FAIL
             else if(numAttempts>=MAX_POSS_ATTEMPTS){
                 cout<<"go to 3 NOT QUIET"<<endl;
 
-                goToScene(3);
-                scenes[3]->setState(1);
+                goToScene(4);
+                scenes[4]->setState(1);
 
             }
             //GO TO DIRECTIONS AGAIN
@@ -77,7 +81,7 @@ void manager::update(float _lat, float _long){
                 cout<<"go to 1"<<endl;
 
                 numAttempts++;
-                goToScene(1);
+                goToScene(2);
             }
             sampleIsReady=true;
             
@@ -114,7 +118,7 @@ void manager::touch(ofPoint touch){
 void manager::nextScene(){
     if(sceneIndex<scenes.size()-1){
         sceneIndex++;
-        if (sceneIndex==3) {
+        if (sceneIndex==4) {
             
         }
         else{

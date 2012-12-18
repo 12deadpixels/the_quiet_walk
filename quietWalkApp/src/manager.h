@@ -9,6 +9,7 @@ manager
 #include "ofMain.h"
 #include "scene.h"
 #include "welcomeScene.h"
+#include "readyScreen.h"
 #include "directionScene.h"
 #include "endScene.h"
 #include "listenScene.h"
@@ -50,6 +51,7 @@ protected:
     vector<scene *> scenes;
 
     welcomeScene wel;
+    readyScreen red;
     directionScene dir;
     listenScene lis;
     endScene end;

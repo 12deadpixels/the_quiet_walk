@@ -31,6 +31,7 @@ public:
 	int	drawCounter;
     int bufferCounter;
 	float * buffer;
-	
+    float avCount;
+	float runningAv;
 };
 

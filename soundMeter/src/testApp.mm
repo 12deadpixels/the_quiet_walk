@@ -42,6 +42,8 @@ void testApp::setup(){
 	// 4 num buffers (latency)
 	ofSoundStreamSetup(0, 1, this, sampleRate, initialBufferSize, 4);
 	ofSetFrameRate(60);
+    avCount=0;
+    runningAv=0.0;
 }
 
 //--------------------------------------------------------------
@@ -64,7 +66,7 @@ void testApp::draw(){
     ofDrawBitmapString("thresh : "+ofToString(thresh), 0,50);
     ofDrawBitmapString("numHighSamplesPerSecond : "+ofToString(numHighSamples), 0,80);
     ofDrawBitmapString("lastAverage : "+ofToString(lastAverage), 0,110);
-    ofDrawBitmapString("Last sample was Lound : "+ofToString(wasLoud), 0,140);
+    ofDrawBitmapString("Last sample was Loud : "+ofToString(wasLoud), 0,140);
 
     ofRect(0, ofGetHeight()-ofMap(lastAverage,0,1,0,ofGetHeight()), ofGetWidth(), 10);
     
@@ -99,7 +101,17 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
 
     }
     average/=16.0;
-    lastAverage=average;
+   // if(ofGetFrameNum()%30==0){
+    //lastAverage=average;
+ //   }
+    runningAv+=average;
+    avCount++;
+    if (avCount>20) {
+        runningAv/=avCount;
+        avCount=0;
+        lastAverage=runningAv;
+        runningAv=0;
+    }
     if (isListening) {
         if (average>thresh) {
             loudCount++;
