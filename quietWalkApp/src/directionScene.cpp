@@ -42,9 +42,9 @@ bool directionScene::getSceneHasEnded(){
     return sceneHasEnded;
 }
 void directionScene::touch(ofPoint touch){
-    ofPoint buttPos = ofPoint(98,291);
-    float w = 116;
-    float h= 24;
+    ofPoint buttPos = ofPoint(100,320);
+    float w = 125;
+    float h= 40;
     cout<<"touched";
     if(inBounds(buttPos,w,h,touch)){
         stop();

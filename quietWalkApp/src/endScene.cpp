@@ -16,8 +16,8 @@ void endScene::draw(){
     else{
         failureEnd.draw(0, 0);
     }
-    ofSetColor(255, 0, 0);
-    ofDrawBitmapString("OPEN MAP PLACEHOLDER BUTTON", ofPoint(0,28));
+   // ofSetColor(255, 0, 0);
+    //ofDrawBitmapString("OPEN MAP PLACEHOLDER BUTTON", ofPoint(0,28));
     ofPopStyle();
 }
 void endScene::stop(){
@@ -36,7 +36,7 @@ void endScene::setState(int _state){
 void endScene::touch(ofPoint touch){
     ofPoint buttPos;
     float w ,h;
-    if(state==0){
+    /*if(state==0){
         buttPos = ofPoint(160,423);
         w = 82;
         h= 38;
@@ -44,14 +44,17 @@ void endScene::touch(ofPoint touch){
         buttPos = ofPoint(160,454);
         w = 92;
         h= 38;
-    }
+    }*/
+   buttPos = ofPoint(240,400);
+    w = 110;
+    h= 110;
     cout<<"touched";
     if(inBounds(buttPos,w,h,touch)){
         stop();
     }
-    ofPoint mapButton= ofPoint(0,0);
-    w = ofGetWidth();
-    h= 28;
+    ofPoint mapButton= ofPoint(0,400);
+    w = 110;
+    h= 110;
     if(inBounds(mapButton,w,h,touch)){
         stop();
         pageOpened= true;

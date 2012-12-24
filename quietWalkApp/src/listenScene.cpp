@@ -21,7 +21,7 @@ void listenScene::stop(){
     cout<<"sceneHasEnded ";
 }
 void listenScene::update(){
-    int secondsToListen = 3;
+    int secondsToListen = 60;
     if (ofGetElapsedTimeMillis()-millis>1000*(secondsToListen+1)) {
         //checkstatus;
        

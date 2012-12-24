@@ -1,7 +1,7 @@
 #include "readyScreen.h"
 ////////////////////////---------/////////////////////////////////////
 void readyScreen::setup(){
-    readyScreenImage.loadImage("images/Screen01a.png");
+    readyScreenImage.loadImage("images/Screen01.png");
 }
 void readyScreen::start(){
     sceneHasEnded = false;
