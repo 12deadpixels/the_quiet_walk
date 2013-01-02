@@ -23,9 +23,9 @@ bool welcomeScene::getSceneHasEnded(){
     return sceneHasEnded;
 }
 void welcomeScene::touch(ofPoint touch){
-    ofPoint buttPos = ofPoint(117,417);
-    float w = 97;
-    float h= 27;
+    ofPoint buttPos = ofPoint(100,350);
+    float w = 124;
+    float h= 120;
     cout<<"touched";
     if(inBounds(buttPos,w,h,touch)){
         stop();

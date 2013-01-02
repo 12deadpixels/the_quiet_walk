@@ -57,7 +57,7 @@ void testApp::update(){
     sceneManager.update(coreLocation->getLatitude(),coreLocation->getLongitude());
     //sceneManager.update(loc.x,loc.y);
     if(sceneManager.getPageOpened()){
-        string url = "http://di.ncl.ac.uk/quietwalk/multixmlmarkers.html";
+        string url = "http://di.ncl.ac.uk/quietwalk/map.html";
         cout<<"page opened in testApp"<<endl;
         ofxiPhoneLaunchBrowser(url);
 //        sceneManager.setPageOpened(false);

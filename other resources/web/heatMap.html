@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<style>
+html, body, #map_canvas {
+margin: 
+  0;
+padding: 
+  0;
+height: 
+  100%;
+}
+</style>
+
+
+<title>The quiet walk</title>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=visualization"></script>
+<script src="http://code.jquery.com/jquery-1.7.js"></script>
+
+<script>
+      var map;
+
+var citymap = {
+    };
+	var mylats=new Array();
+  var mylongs=new Array();
+  var mydbs=new Array();
+  var myPointNames=new Array();
+      	var pointData = [];
+
+  ///////////////////////////////////////////
+
+  var xmlFileNames = new Array();
+//var test = <?php $phpvar ="testestetet"; echo json_encode($phpvar);?>
+function loadPoints() {
+
+  //get filenames here! and add external loop
+  $.getJSON('dirList.php', function(data) {	
+    for (i=0;i<data.length;i++)
+    { 
+      xmlFileNames[i]=data[i];
+      console.debug(data[i]);
+     
+    }
+    getXML();
+
+    initialize();
+  }
+  );
+
+
+
+  
+}
+function getXML(){
+  ///////////////////////////////////////////
+
+  for ( j=0;j<xmlFileNames.length;j++) {
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {// code for IE6, IE5
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    xmlhttp.open("GET", xmlFileNames[j], false);
+    xmlhttp.send();
+    xmlDoc=xmlhttp.responseXML;
+
+    var aDate = xmlDoc.getElementsByTagName("pubDate")[0].childNodes[0].nodeValue;
+    var x=xmlDoc.getElementsByTagName("item");
+
+    
+    for (i=0;i<x.length;i++)
+    { 
+      mylats[i] = x[i].getElementsByTagName("geolat")[0].childNodes[0].nodeValue;
+      mylongs[i] = x[i].getElementsByTagName("geolong")[0].childNodes[0].nodeValue;
+      mydbs[i] = x[i].getElementsByTagName("geodB_low")[0].childNodes[0].nodeValue;
+      myPointNames[i] = aDate+"_attempt_"+i;
+      pointData.push({ location: new google.maps.LatLng(mylats[i], mylongs[i]), weight: mydbs[i].yield });
+    }
+  } 	
+}        
+
+function initialize() {
+
+  var mapOptions = {
+	zoom:15, 
+	//center: new google.maps.LatLng(54.9882, -1.59754), 
+	mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+	
+   map = new google.maps.Map(document.getElementById('map_canvas'), 
+  mapOptions);
+		 var pointArray, heatmap;
+  		pointArray = new google.maps.MVCArray(pointData);
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          data: pointArray,
+          radius: 40,
+          dissipating: true
+        });
+
+        heatmap.setMap(map);
+	  if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = new google.maps.LatLng(position.coords.latitude,
+                                             position.coords.longitude);
+
+            map.setCenter(pos);
+            
+        for (var city in citymap) {
+              var marker = new google.maps.Marker({
+            position: citymap[city].center,
+            map: map,
+            title: citymap[city].id
+        });
+        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+ 	}
+          }, function() {
+            handleNoGeolocation(true);
+          });
+        } else {
+        
+          // Browser doesn't support Geolocation
+          handleNoGeolocation(false);
+        }
+
+}
+   function handleNoGeolocation(errorFlag) {
+
+        var options = {
+          map: map,
+          position: new google.maps.LatLng(54.9882, -1.59754),
+        };
+
+        for (var city in citymap) {
+            var marker = new google.maps.Marker({
+            position: citymap[city].center,
+            map: map,
+            title: citymap[city].id
+        });
+        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+ 		}
+        map.setCenter(options.position);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+</head>
+<body onload="loadPoints()">
+<div id="map_canvas"></div>
+</body>
