@@ -10,7 +10,7 @@ set_time_limit(0);
   		$clng= -1.614614;
   		
 //delete previous map
-unlink('map.png');
+//unlink('map.png');
 $root_dir=".";
 $files = scandir($root_dir);
 $extensions = array(".xml",".php",".htm");
@@ -85,6 +85,7 @@ function mapRange($OldValue,$OldMin, $OldMax, $NewMin, $NewMax){
 	$NewValue = ((($OldValue - $OldMin) * $NewRange) / $OldRange) + $NewMin;
 	return $NewValue;
 }
+$fCounter= 0;
 // Loop through each filename of scandir
 foreach ($files as $filename) {
 	 // Construct a full path
@@ -92,6 +93,7 @@ foreach ($files as $filename) {
 
 	 // Is it a file? If so, get the extension using some function you created
 	 if(is_file($filename)) {
+	 	
 		  $ext = "xml";//getFileExtension($filename);
 		  //echo getFileExtension($filename);
 		  if(getFileExtension($filename)==$ext && !beginsWithDot($filename)){
@@ -138,7 +140,8 @@ foreach($xml->children() as $child)
   		//echo " ";
   		//echo distance($alat, $along, $lat2, $lng2, $miles = true);
   		//echo " ";
-		if(distance($alat, $along, $clat, $clng, $miles = true)<10){
+		if(distance($alat, $along, $clat, $clng, $miles = true)<2){
+			$fCounter +=1;
 			array_push($lats ,floatval($alat)) ;
 			array_push($longs ,floatval($along)) ;
 			array_push($dbs ,floatval($ageo)) ;
@@ -153,6 +156,7 @@ foreach($xml->children() as $child)
   }
 }
 
+//echo "<br>fCounter = ".strval($fCounter)."<br>";
 
 //add notional fade out points at extended four corners
 //+- 0.02 is a couple of miles ish... not very scientific but will do for now.
@@ -171,22 +175,23 @@ echo strval($maxLat)."<br>";
 echo strval($minLong)."<br>";
 echo strval($maxLong)."<br>";*/
 
+$numPeripheralPoints =20.0;
 
 $angle = 0.0;
 //$inc = (2.0*M_PI) /10.0;
-$inc = 360.0 /30.0;
-echo " inc ".$inc;
-for($i = 0; $i<30; $i++){
-	$thisLatLong = destinationPoint($clat, $clng, $angle, 9.0) ;
+$inc = 360.0 /$numPeripheralPoints;
+//echo " inc ".$inc;
+for($i = 0; $i<$numPeripheralPoints; $i++){
+	$thisLatLong = destinationPoint($clat, $clng, $angle, 0.7) ;
 	//$x = destinationPoint($clat, $lng, $angle, $dist)  ;
 	//$y =  destinationPoint($lat, $lng, $angle, $dist) ;
-	echo strval($thisLatLong[0])." ".$thisLatLong[1]."<br>";
+	//echo strval($thisLatLong[0])." ".$thisLatLong[1]."<br>";
 	
 	array_push($lats ,$thisLatLong[0]) ;
 	array_push($longs ,$thisLatLong[1]) ;
 	array_push($dbs ,0) ;
 	$angle += $inc;
-	echo " angle ".strval( $angle)."<br>";
+//	echo " angle ".strval( $angle)."<br>";
 }
 
 
@@ -199,11 +204,11 @@ $ratio = $wr/$hr;
 $fPoints = array();
 $w = 250;
 $h = 250;//$w*$ratio;
-echo "ratio is ".$ratio."<br>";
-echo $w." ".$h;
+//echo "ratio is ".$ratio."<br>";
+//echo $w." ".$h;
 
 //fill pixel array with mapped values
-
+echo "<br> min and max dbs are ".strval(min ( $dbs ))." ".strval( max ( $dbs ))."<br>";
 for($i = 0; $i<sizeof($lats); $i++){
 
 	//echo mapRange(  $lats [$i], min ( $lats ), max ( $lats ) , 0,1)."<br>";
@@ -353,12 +358,11 @@ for ($i = 0; $i < $pixLength; $i++) {
   	$y += 1;
   }
 }
-//draw a spot at each point
-/*$white = imagecolorallocate($gd, 255, 255, 255);
+$white = imagecolorallocate($gd, 255, 255, 255);
 echo "sizeof($xPos)".strval(sizeof($xPos));
 for ($i = 0; $i < sizeof($xPos); $i++) {
-	imagearc($gd, $xPos[$i], $yPos[$i], 3, 3,  0, 360, $white);
-}*/
+//	imagearc($gd, $xPos[$i], $yPos[$i], 3, 3,  0, 360, $white);
+}
 	$fname = "map.png";
 	
 	$coord_string = strval(min($lats))."_".strval(min($longs))."_".strval(max($lats))."_".strval( max($longs))."_".strval($clat)."_".strval($clng);
