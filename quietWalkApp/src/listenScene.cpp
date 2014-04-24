@@ -2,6 +2,8 @@
 ////////////////////////---------/////////////////////////////////////
 void listenScene::setup(){
     listenImage.loadImage("images/Screen02.png");
+    
+    
 }
 void listenScene::start(){
     wasQuiet=false;
@@ -12,9 +14,14 @@ void listenScene::start(){
 void listenScene::draw(){
     ofPushStyle();
     listenImage.draw(0, 0);
-    int cTime = (ofGetElapsedTimeMillis()-millis)/1000;
-    ofDrawBitmapString(ofToString(cTime), ofGetWidth()/2, ofGetHeight()/2);
+    int targetTime = 60; // set the maximum time interval
+    int cTime = targetTime - (ofGetElapsedTimeMillis()-millis)/1000;
+    //ofDrawBitmapString(ofToString(cTime), ofGetWidth()/2 - 10, ofGetHeight()/2 + 30, 120);
     ofPopStyle();
+    
+    
+    testFont.loadFont("fonts/Courier New Bold.ttf",20);
+    testFont.drawString(ofToString(cTime),(ofGetWidth()/2)-20,ofGetWidth()/1.2);
 }
 void listenScene::stop(){
     sceneHasEnded = true;

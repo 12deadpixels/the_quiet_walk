@@ -9,7 +9,7 @@ directionScene
 #include "ofMain.h"
 #include "scene.h"
 //how many times it will repeat if there is no quietness found
-#define NUM_DIRECTIONS 11
+#define NUM_DIRECTIONS 10
 
 using namespace std;
 

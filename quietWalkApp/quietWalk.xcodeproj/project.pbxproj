@@ -309,9 +309,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* quietWalk */ = {
+		1D6058900D05DD3D006BFB54 /* The Quiet Walk */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "quietWalk" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "The Quiet Walk" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -323,7 +323,7 @@
 			dependencies = (
 				E41D410413B3A11300A75A5D /* PBXTargetDependency */,
 			);
-			name = quietWalk;
+			name = "The Quiet Walk";
 			productName = iPhone;
 			productReference = 1D6058910D05DD3D006BFB54 /* quietWalk.app */;
 			productType = "com.apple.product-type.application";
@@ -353,7 +353,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* quietWalk */,
+				1D6058900D05DD3D006BFB54 /* The Quiet Walk */,
 			);
 		};
 /* End PBXProject section */
@@ -522,7 +522,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "quietWalk" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "The Quiet Walk" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,

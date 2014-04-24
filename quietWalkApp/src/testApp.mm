@@ -104,6 +104,7 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
      
      87db = 0.16
      */
+    
 	if(initialBufferSize != bufferSize){
 		ofLog(OF_LOG_ERROR, "your buffer size was set to %i - but the stream needs a buffer size of %i", initialBufferSize, bufferSize);
 		return;
@@ -114,9 +115,10 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
 		buffer[i] = input[i];
 	}
 	bufferCounter++;
-    
+    //cout<<"THIS IS SPECTRUM"<<ofSoundGetSpectrum(1)<<"   ";
     //take a rough average.
     float average=0.0;
+    
     
     //just take the last part of the buffer
     for(int i = 0; i < 16; i++){
@@ -124,9 +126,10 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
 	}
     average/=16.0;
     
+
     if(sceneManager.getIsListening()){
-        float thresh=0.05;
-        int numHighSamples=10;
+        float thresh=0.035;
+        int numHighSamples= 300;
         //        float thresh=4.7;
         
         // cout<<"average "<<average<<" ";

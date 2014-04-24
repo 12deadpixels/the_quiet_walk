@@ -21,6 +21,8 @@ class listenScene : public scene{
     void update();
     bool getEndState();
     bool getSceneHasEnded();
+    ofTrueTypeFont testFont;
+    
     
 protected:
     bool sceneHasEnded;
@@ -28,6 +30,7 @@ protected:
     ofImage listenImage;
     bool wasQuiet;
     long millis;
+    int targetTime;
     
 };
 

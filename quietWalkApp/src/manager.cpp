@@ -23,9 +23,9 @@ void manager::setup(){
     startTone.loadSound("sounds/startTone.caf");
     quietTone.loadSound("sounds/quietTone.caf");
 	loudTone.loadSound("sounds/loudTone.caf");
-    startTone.setVolume(0.75f);
-    quietTone.setVolume(0.75f);
-	loudTone.setVolume(0.75f);
+    startTone.setVolume(0.9f);
+    quietTone.setVolume(0.9f);
+	loudTone.setVolume(0.9f);
     startTone.setMultiPlay(false);
     quietTone.setMultiPlay(false);
     loudTone.setMultiPlay(false);

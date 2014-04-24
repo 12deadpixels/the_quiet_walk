@@ -16,7 +16,7 @@ manager
 #include "mapScene.h"
 #include "ofxiWebUploader.h"
 
-#define MAX_POSS_ATTEMPTS 2
+#define MAX_POSS_ATTEMPTS 6
 
 using namespace std;
 

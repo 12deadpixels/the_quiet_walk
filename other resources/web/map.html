@@ -1,237 +1,261 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<style>
+html, body, #map_canvas {
+margin: 
+  0;
+padding: 
+  0;
+height: 
+  100%;
+}
+</style>
+
+
+<title>The quiet walk</title>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+<script src="http://code.jquery.com/jquery-1.7.js"></script>
+
+<script>
+      var map;
+
+var citymap = {
+    };
+	var mylats=new Array();
+  var mylongs=new Array();
+  var mydbs=new Array();
+  var myPointNames=new Array();
+  ///////////////////////////////////////////
+
+  var xmlFileNames = new Array();
+//var test = <?php $phpvar ="testestetet"; echo json_encode($phpvar);?>
+function loadPoints() {
+
+  //get filenames here! and add external loop
+  $.getJSON('dirList.php', function(data) {	
+    for (i=0;i<data.length;i++)
+    { 
+      xmlFileNames[i]=data[i];
+      console.debug(data[i]);
+     
+    }
+    getXML();
+
+    initialize();
+  }
+  );
+
+
+
+  
+}
+function getXML(){
+
+  ///////////////////////////////////////////
+  for ( j=0;j<xmlFileNames.length;j++) {
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {// code for IE6, IE5
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    xmlhttp.open("GET", xmlFileNames[j], false);
+    xmlhttp.send();
+    xmlDoc=xmlhttp.responseXML;
+
+    var aDate = xmlDoc.getElementsByTagName("pubDate")[0].childNodes[0].nodeValue;
+    var x=xmlDoc.getElementsByTagName("item");
+
     
-    <head>
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <meta charset="utf-8">
-        <style>
-            html, body, #map_canvas {
-                margin: 0;
-                padding: 0;
-                height: 100%;
-            }
-        </style>
-        <title>The quiet walk</title>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
-        <script src="http://code.jquery.com/jquery-1.7.js"></script>
-        <script>
-            var map;
+    for (i=0;i<x.length;i++)
+    { 
+      mylats[i] = x[i].getElementsByTagName("geolat")[0].childNodes[0].nodeValue;
+      mylongs[i] = x[i].getElementsByTagName("geolong")[0].childNodes[0].nodeValue;
+      mydbs[i] = x[i].getElementsByTagName("geodB_low")[0].childNodes[0].nodeValue;
+      myPointNames[i] = aDate+"_attempt_"+i;
+      //make citymap object
+      var noisiness;
+      if(mydbs[i]<0.0004){
+      	noisiness = "pianissimo";
+      }
+      else if(mydbs[i]>=0.0004 && mydbs[i]<0.002){
+      	noisiness = "piano";
+      }
+      else if(mydbs[i]>=0.002 && mydbs[i]<0.0038){
+      	noisiness = "mezzo piano";
+      }
+      else if(mydbs[i]>=0.0038 && mydbs[i]<0.025){
+      	noisiness = "mezzo forte";
+      }
+      else if(mydbs[i]>=0.025 && mydbs[i]<0.16){
+      	noisiness = "forte";
+      }
+      else if(mydbs[i]>=0.16){
+      	noisiness = "fortissimo";
+      }
+      citymap[myPointNames[i]] = {
+		center:new google.maps.LatLng(mylats[i], mylongs[i]), 
+		population: mydbs[i]*200,
+		id: noisiness
+      };
+    }
+  }
+}
+//         
 
-            var citymap = {};
-            var mylats = new Array();
-            var mylongs = new Array();
-            var mydbs = new Array();
-            var myPointNames = new Array();
-            ///////////////////////////////////////////
+function initialize() {
 
-            var xmlFileNames = new Array();
-            //var test = <?php $phpvar ="testestetet"; echo json_encode($phpvar);?>
-            function loadPoints() {
+  var mapOptions = {
+	zoom:15, 
+	//center: new google.maps.LatLng(54.9882, -1.59754), 
+	mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+	
+   map = new google.maps.Map(document.getElementById('map_canvas'), 
+  mapOptions);
+		
+	  if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = new google.maps.LatLng(position.coords.latitude,
+                                             position.coords.longitude);
+var stylers = [
+  			{
+    "stylers": [
+      { "saturation": -100 }
+    	]
+  		},{
+    		"featureType": "water",
+    		"stylers": [
+      { "lightness": -100 }
+    			]
+  		},{
+   		 "featureType": "road",
+   		 "elementType": "labels",
+   		 "stylers": [
+  		    { "visibility": "off" }
+  		  ]
+ 		 }
+		];
+            map.setCenter(pos);
+                    map.setOptions({styles: stylers});
 
-                //get filenames here! and add external loop
-                $.getJSON('dirList.php', function (data) {
-                    for (i = 0; i < data.length; i++) {
-                        xmlFileNames[i] = data[i];
-                        console.debug(data[i]);
+                   for (var city in citymap) {
+                 console.debug("test");
+        console.debug(citymap[city].id);
+                   var image;
+                   if(citymap[city].id=="pianissimo"){
+                   		image = new google.maps.MarkerImage('gui/TQW-pp-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
 
-                    }
-                    getXML();
+                   }
+                   else if(citymap[city].id=="piano"){
+                   		image = new google.maps.MarkerImage('gui/TQW-p-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
 
-                    initialize();
-                });
+                   }
+                   else if(citymap[city].id=="mezzo piano"){
+                   		image = new google.maps.MarkerImage('gui/TQW-mp-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
+                   }
+                   else if(citymap[city].id=="mezzo forte"){
+                   		image = new google.maps.MarkerImage('gui/TQW-mf-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
+                   }
+                   else if(citymap[city].id=="forte"){
+                    	image = new google.maps.MarkerImage('gui/TQW-f-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
 
+                   }
+                    else if(citymap[city].id=="fortissimo"){
+                    	image = new google.maps.MarkerImage('gui/TQW-ff-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
 
+                   }
+      
+              var marker = new google.maps.Marker({
+            position: citymap[city].center,
+            map: map,
+            title: citymap[city].id,
+            icon: image
+        });
+       // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+ 	}
+          }, function() {
+            handleNoGeolocation(true);
+          });
+        } else {
+        
+          // Browser doesn't support Geolocation
+          handleNoGeolocation(false);
+        }
 
+}
+   function handleNoGeolocation(errorFlag) {
+		
+        var options = {
+          map: map,
+          position: new google.maps.LatLng(54.9882, -1.59754)
+          
+        };
+var stylers = [
+  			{
+    "stylers": [
+      { "saturation": -100 }
+    	]
+  		},{
+    		"featureType": "water",
+    		"stylers": [
+      { "lightness": -100 }
+    			]
+  		},{
+   		 "featureType": "road",
+   		 "elementType": "labels",
+   		 "stylers": [
+  		    { "visibility": "off" }
+  		  ]
+ 		 }
+		];
+        for (var city in citymap) {
+        var image;
+        console.debug("test");
+        console.debug(citymap[city].id);
+                   if(citymap[city].id=="pianissimo"){
+                   		image = new google.maps.MarkerImage('gui/TQW-pp-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
 
-            }
+                   }
+                   else if(citymap[city].id=="piano"){
+                   		image = new google.maps.MarkerImage('gui/TQW-p-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
 
-            function getXML() {
+                   }
+                   else if(citymap[city].id=="mezzo piano"){
+                   		image = new google.maps.MarkerImage('gui/TQW-mp-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
+                   }
+                   else if(citymap[city].id=="mezzo forte"){
+                   		image = new google.maps.MarkerImage('gui/TQW-mf-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
+                   }
+                   else if(citymap[city].id=="forte"){
+                    	image = new google.maps.MarkerImage('gui/TQW-f-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
 
-                ///////////////////////////////////////////
-                for (j = 0; j < xmlFileNames.length; j++) {
-                    if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-                        xmlhttp = new XMLHttpRequest();
-                    } else { // code for IE6, IE5
-                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                    }
+                   }
+                    else if(citymap[city].id=="fortissimo"){
+                    	image = new google.maps.MarkerImage('gui/TQW-ff-icon.png',new google.maps.Size(46, 44),new google.maps.Point(0,0),new google.maps.Point(0,46));
 
-                    xmlhttp.open("GET", xmlFileNames[j], false);
-                    xmlhttp.send();
-                    xmlDoc = xmlhttp.responseXML;
-
-                    var aDate = xmlDoc.getElementsByTagName("pubDate")[0].childNodes[0].nodeValue;
-                    var x = xmlDoc.getElementsByTagName("item");
-
-
-                    for (i = 0; i < x.length; i++) {
-                        mylats[i] = x[i].getElementsByTagName("geolat")[0].childNodes[0].nodeValue;
-                        mylongs[i] = x[i].getElementsByTagName("geolong")[0].childNodes[0].nodeValue;
-                        mydbs[i] = x[i].getElementsByTagName("geodB_low")[0].childNodes[0].nodeValue;
-                        myPointNames[i] = aDate + "_attempt_" + i;
-                        //make citymap object
-                        var noisiness;
-                        if (mydbs[i] < 0.0004) {
-                            noisiness = "pianissimo";
-                        } else if (mydbs[i] >= 0.0004 && mydbs[i] < 0.002) {
-                            noisiness = "piano";
-                        } else if (mydbs[i] >= 0.002 && mydbs[i] < 0.0038) {
-                            noisiness = "mezzo piano";
-                        } else if (mydbs[i] >= 0.0038 && mydbs[i] < 0.025) {
-                            noisiness = "mezzo forte";
-                        } else if (mydbs[i] >= 0.025 && mydbs[i] < 0.16) {
-                            noisiness = "forte";
-                        } else if (mydbs[i] >= 0.16) {
-                            noisiness = "fortissimo";
-                        }
-                        citymap[myPointNames[i]] = {
-                            center: new google.maps.LatLng(mylats[i], mylongs[i]),
-                            population: mydbs[i] * 200,
-                            id: noisiness
-                        };
-                    }
-                }
-            }
-            //         
-
-            function initialize() {
-
-                var mapOptions = {
-                    zoom: 15,
-                    //center: new google.maps.LatLng(54.9882, -1.59754), 
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-
-                map = new google.maps.Map(document.getElementById('map_canvas'),
-                mapOptions);
-
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        var pos = new google.maps.LatLng(position.coords.latitude,
-                        position.coords.longitude);
-                        var stylers = [{
-                            "stylers": [{
-                                "saturation": -100
-                            }]
-                        }, {
-                            "featureType": "water",
-                            "stylers": [{
-                                "lightness": -100
-                            }]
-                        }, {
-                            "featureType": "road",
-                            "elementType": "labels",
-                            "stylers": [{
-                                "visibility": "off"
-                            }]
-                        }];
-                        map.setCenter(pos);
-                        map.setOptions({
-                            styles: stylers
-                        });
-
-                        for (var city in citymap) {
-                            console.debug("test");
-                            console.debug(citymap[city].id);
-                            var image;
-                            if (citymap[city].id == "pianissimo") {
-                                image = new google.maps.MarkerImage('gui/TQW-pp-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-
-                            } else if (citymap[city].id == "piano") {
-                                image = new google.maps.MarkerImage('gui/TQW-p-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-
-                            } else if (citymap[city].id == "mezzo piano") {
-                                image = new google.maps.MarkerImage('gui/TQW-mp-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-                            } else if (citymap[city].id == "mezzo forte") {
-                                image = new google.maps.MarkerImage('gui/TQW-mf-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-                            } else if (citymap[city].id == "forte") {
-                                image = new google.maps.MarkerImage('gui/TQW-f-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-
-                            } else if (citymap[city].id == "fortissimo") {
-                                image = new google.maps.MarkerImage('gui/TQW-ff-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-
-                            }
-
-                            var marker = new google.maps.Marker({
-                                position: citymap[city].center,
-                                map: map,
-                                title: citymap[city].id,
-                                icon: image
-                            });
-                            // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-                        }
-                    }, function () {
-                        handleNoGeolocation(true);
-                    });
-                } else {
-
-                    // Browser doesn't support Geolocation
-                    handleNoGeolocation(false);
-                }
-
-            }
-
-            function handleNoGeolocation(errorFlag) {
-
-                var options = {
-                    map: map,
-                    position: new google.maps.LatLng(54.9882, -1.59754)
-
-                };
-                var stylers = [{
-                    "stylers": [{
-                        "saturation": -100
-                    }]
-                }, {
-                    "featureType": "water",
-                    "stylers": [{
-                        "lightness": -100
-                    }]
-                }, {
-                    "featureType": "road",
-                    "elementType": "labels",
-                    "stylers": [{
-                        "visibility": "off"
-                    }]
-                }];
-                for (var city in citymap) {
-                    var image;
-                    console.debug("test");
-                    console.debug(citymap[city].id);
-                    if (citymap[city].id == "pianissimo") {
-                        image = new google.maps.MarkerImage('gui/TQW-pp-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-
-                    } else if (citymap[city].id == "piano") {
-                        image = new google.maps.MarkerImage('gui/TQW-p-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-
-                    } else if (citymap[city].id == "mezzo piano") {
-                        image = new google.maps.MarkerImage('gui/TQW-mp-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-                    } else if (citymap[city].id == "mezzo forte") {
-                        image = new google.maps.MarkerImage('gui/TQW-mf-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-                    } else if (citymap[city].id == "forte") {
-                        image = new google.maps.MarkerImage('gui/TQW-f-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-
-                    } else if (citymap[city].id == "fortissimo") {
-                        image = new google.maps.MarkerImage('gui/TQW-ff-icon.png', new google.maps.Size(46, 44), new google.maps.Point(0, 0), new google.maps.Point(0, 46));
-
-                    }
-                    var marker = new google.maps.Marker({
-                        position: citymap[city].center,
-                        map: map,
-                        title: citymap[city].id,
-                        icon: image
-                    });
-                    //	marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-                }
-
-                map.setCenter(options.position);
-                map.setOptions({
-                    styles: stylers
-                });
-            }
-            google.maps.event.addDomListener(window, 'load', initialize);
-        </script>
-    </head>
-    
-    <body onload="loadPoints()">
-        <div id="map_canvas"></div>
-    </body>
+                   }
+            var marker = new google.maps.Marker({
+            position: citymap[city].center,
+            map: map,
+            title: citymap[city].id,
+            icon: image
+        });
+        //	marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+ 		}
+ 		
+        map.setCenter(options.position);
+        map.setOptions({styles: stylers});
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+</head>
+<body onload="loadPoints()">
+<div id="map_canvas"></div>
+</body>
