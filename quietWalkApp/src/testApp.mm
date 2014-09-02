@@ -128,7 +128,7 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
     
 
     if(sceneManager.getIsListening()){
-        float thresh=0.035;
+        float thresh=0.020;
         int numHighSamples= 300;
         //        float thresh=4.7;
         

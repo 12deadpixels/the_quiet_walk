@@ -20,7 +20,7 @@ void directionScene::start(){
 void directionScene::draw(){
     ofBackground(0, 0, 0);
     ofPushStyle();
-    ofPoint dirPos = ofPoint(59,96);
+    ofPoint dirPos = ofPoint(170,326);
     if (isFirstRun) {
         backgroundImage.draw(0, 0);
     }
@@ -42,9 +42,9 @@ bool directionScene::getSceneHasEnded(){
     return sceneHasEnded;
 }
 void directionScene::touch(ofPoint touch){
-    ofPoint buttPos = ofPoint(100,320);
-    float w = 125;
-    float h= 40;
+    ofPoint buttPos = ofPoint(210,745);
+    float w = 325;
+    float h= 300;
     cout<<"touched";
     if(inBounds(buttPos,w,h,touch)){
         stop();

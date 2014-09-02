@@ -15,7 +15,7 @@ void readyScreen::draw(){
     readyScreenImage.draw(0, 0);
     
     ofNoFill();
-    radius = 50 + 2 * sin(drawCounter);
+    radius = 100 + 2 * sin(drawCounter);
     ofCircle(x2,y2,radius);    
     ofCircle(x2,y2,radius - 30);
     ofCircle(x2,y2,radius - 10);
@@ -33,9 +33,9 @@ bool readyScreen::getSceneHasEnded(){
     return sceneHasEnded;
 }
 void readyScreen::touch(ofPoint touch){
-    ofPoint buttPos = ofPoint(70,115);
-    float w = 171;
-    float h= 58;
+    ofPoint buttPos = ofPoint(276,680);
+    float w = 400;
+    float h= 200;
     cout<<"touched";
     float halfRad = 0.5f*radius;
     ofPoint circPos=ofPoint(x2-halfRad, y2-halfRad  );

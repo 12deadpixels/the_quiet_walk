@@ -45,16 +45,16 @@ void endScene::touch(ofPoint touch){
         w = 92;
         h= 38;
     }*/
-   buttPos = ofPoint(240,400);
-    w = 110;
-    h= 110;
+   buttPos = ofPoint(600,1036);
+    w = 200;
+    h= 200;
     cout<<"touched";
     if(inBounds(buttPos,w,h,touch)){
         stop();
     }
-    ofPoint mapButton= ofPoint(0,400);
-    w = 110;
-    h= 110;
+    ofPoint mapButton= ofPoint(20,1036);
+    w = 200;
+    h= 200;
     if(inBounds(mapButton,w,h,touch)){
         stop();
         pageOpened= true;

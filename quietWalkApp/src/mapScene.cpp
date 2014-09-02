@@ -90,9 +90,9 @@ bool mapScene::getSceneHasEnded(){
     return sceneHasEnded;
 }
 void mapScene::touch(ofPoint touch){
-    ofPoint buttPos = ofPoint(117,417);
-    float w = 97;
-    float h= 27;
+    ofPoint buttPos = ofPoint(117,1036);
+    float w = 200;
+    float h= 200;
     cout<<"touched";
     if(inBounds(buttPos,w,h,touch)){
         stop();

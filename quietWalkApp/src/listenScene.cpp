@@ -20,8 +20,8 @@ void listenScene::draw(){
     ofPopStyle();
     
     
-    testFont.loadFont("fonts/Courier New Bold.ttf",20);
-    testFont.drawString(ofToString(cTime),(ofGetWidth()/2)-20,ofGetWidth()/1.2);
+    testFont.loadFont("fonts/Courier New Bold.ttf",32);
+    testFont.drawString(ofToString(cTime),(ofGetWidth()/2)-20,632);
 }
 void listenScene::stop(){
     sceneHasEnded = true;

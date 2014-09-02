@@ -4,6 +4,7 @@
 #include "ofxiPhone.h"
 #include "ofxiPhoneExtras.h"
 #include "manager.h"
+
 class testApp : public ofxiPhoneApp{
 	
 public:
@@ -43,6 +44,9 @@ public:
     int quietCount;
     int loudCount;
     ofxiPhoneMapKit mapKit;
+    
+    bool retina;
+    
     /*
      1 welcome screen
      2 directions/that was loud+directions
