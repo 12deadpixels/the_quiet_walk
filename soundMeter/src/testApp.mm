@@ -14,6 +14,7 @@ float lastAverage=0.0;
 long aTime=0.0;
 int sampleTime=2;
 bool pIsListening;
+
 //--------------------------------------------------------------
 void testApp::setup(){
 
@@ -93,17 +94,19 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
 	bufferCounter++;
     maxPeaks = 0.0;
     float average=0.0;
-    float average_dB=0.0;
+    double average_dB=0.0;
 
     // here I scan the latest n. bytes of the buffer
     for (int a=0; a<16; a++){
         maxPeaks = MAX(maxPeaks, ABS(buffer[a]));
         average+=ABS(buffer[a]);
-        average_dB+=ABS(buffer[a]);
-
+        average_dB+= 60 + (20 *(log10(ABS(buffer[a]))));
+        
     }
     average/=16.0;
     average_dB/=16.0;
+    
+    cout<<"Max Peaks"<<maxPeaks<<"\n";
     
    // if(ofGetFrameNum()%30==0){
     //lastAverage=average;
@@ -117,6 +120,7 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
         lastAverage=runningAv;
         runningAv=0;
     }
+                           
     if (isListening) {
         if (average>thresh) {
             loudCount++;
